@@ -1,4 +1,4 @@
-TARGET = target # executable with this name
+TARGET = analyzer # executable with this name
 
 CC = gcc # compiler
 LINKER = gcc -o
@@ -7,7 +7,6 @@ LFLAGS = -Wall
 
 SRCDIR = src
 OBJDIR = obj
-BINDIR = bin
 
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(SOURCES:$(SRCDIR)%.c=$(OBJDIR)%.o)
@@ -17,7 +16,7 @@ rm = rm -rf
 # target: dependencies
 # [tab]	<commands>
 
-$(BINDIR)/$(TARGET): build $(OBJECTS)
+$(TARGET): build $(OBJECTS)
 	$(LINKER) $@ $(LFLAGS) $(OBJECTS) -lpcap
 	@echo "Linking complete."
 	
@@ -25,7 +24,6 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ 
 	@echo "Compiled"$<"successfully."
 build:
-	@mkdir -p bin
 	@mkdir -p obj
 
 clean:
@@ -34,5 +32,5 @@ clean:
 
 .PHONY: remove
 remove: clean
-	@$(rm) $(OBJDIR) $(BINDIR) $(BINDIR)/$(TARGET)
+	@$(rm) $(OBJDIR) $(TARGET)
 	@echo "Executable removed."
