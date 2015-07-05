@@ -1,9 +1,3 @@
-/* Simple Raw Sniffer                                                     
-* To compile: gcc sniffer.c -o sniffer -lpcap               
-*/
-
-//#include "analyzer.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

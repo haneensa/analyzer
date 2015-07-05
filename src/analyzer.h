@@ -1,6 +1,3 @@
-/* Simple Raw Sniffer                                                     
-* To compile: gcc sniffer.c -o sniffer -lpcap               
-*/
 #define MAXBYTES2CAPTURE 2048 
 
 
