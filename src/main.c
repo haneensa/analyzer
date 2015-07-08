@@ -119,6 +119,10 @@ void map_protocol2filter(struct commands *coms)
     coms->is_filtered = 1;
     if (strncmp(coms->protocol, "http", 4) == 0) 
         coms->filter = "tcp and (dst port 80 or dst port 8080)";
+    else if (strncmp(coms->protocol, "tcp", 3) == 0)
+        coms->filter = "tcp";
+    else if (strncmp(coms->protocol, "udp", 3) == 0)
+        coms->filter = "udp";
     else if (strncmp(coms->protocol, "https", 5) == 0)
         coms->filter = "tcp and (dst port 443)";
     else if (strncmp(coms->protocol, "ssh", 3) == 0)

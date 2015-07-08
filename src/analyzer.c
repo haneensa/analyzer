@@ -47,9 +47,7 @@ u_int decode_ip(const u_char * header_start)
 
     if (iph->ip_type == 6) //tcp 
     	    return decode_tcp(header_start + sizeof(struct ip_hdr));
-    if(iph->ip_type == 17) // UDP
-    	    return decode_udp(header_start + sizeof(struct ip_hdr));
-    return 0;
+    return decode_udp(header_start + sizeof(struct ip_hdr));
 }
 
 u_int decode_tcp(const u_char *header_start)

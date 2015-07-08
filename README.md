@@ -1,5 +1,4 @@
-# Introduction
-A packet analyzer is a program that intercepts the traffic passing through a network interface. 
+A simple program that intercepts the traffic passing through a network interface. 
 
 # Description
 The analyzer works as follow:
@@ -11,7 +10,7 @@ The analyzer works as follow:
 # Command line interface
 
 ```
-./sniffer --protocol <protocol name> | --bpf <filter language> [--log <log filename>]
+./analyzer --protocol <protocol name> | --bpf <filter language> [--log <log filename>]
 ```
 
 ```
