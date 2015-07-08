@@ -57,8 +57,7 @@ struct tcp_hdr {
 };
 
 void decode_ethernet(const u_char *header_start);
-void decode_ip(const u_char *);
+u_int decode_ip(const u_char *);
 u_int decode_tcp(const u_char *);
 void dump(const unsigned char *, const unsigned int);
-//void decode_icmp(const u_char * Buffer , int Size);
-//void decode_udp(const u_char *Buffer , int Size);
+u_int decode_udp(const u_char *);

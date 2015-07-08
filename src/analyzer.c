@@ -5,7 +5,6 @@
 
 #include <sys/socket.h>
 #include <arpa/inet.h> // for inet_ntoa()
-//#include <netinet/ip_icmp.h>   //Provides declarations for icmp header
 #include <netinet/udp.h>   //Provides declarations for udp header
 #include <netinet/tcp.h>   //Provides declarations for tcp header
 //#include <netinet/ip.h>    //Provides declarations for ip header
@@ -28,8 +27,7 @@ void decode_ethernet(const u_char *header_start)
         printf(":%02x", eth->ether_dest_addr[i]);
     printf("\tTYpe: %hu ]\n", eth->ether_type);
 }
-
-void decode_ip(const u_char * header_start)
+u_int decode_ip(const u_char * header_start)
 {
     const struct ip_hdr *iph;
     struct sockaddr_in src, dest;
@@ -46,6 +44,12 @@ void decode_ip(const u_char * header_start)
     printf("Dest: %s )\n", inet_ntoa(dest.sin_addr));
     printf("\t(  Type: %u\t", (u_int) iph->ip_type);
     printf("ID: %hu\tLength: %hu )\n", ntohs(iph->ip_id), ntohs(iph->ip_len));
+
+    if (iph->ip_type == 6) //tcp 
+    	    return decode_tcp(header_start + sizeof(struct ip_hdr));
+    if(iph->ip_type == 17) // UDP
+    	    return decode_udp(header_start + sizeof(struct ip_hdr));
+    return 0;
 }
 
 u_int decode_tcp(const u_char *header_start)
@@ -75,26 +79,19 @@ u_int decode_tcp(const u_char *header_start)
     
     return header_size;
 }
-/*
-void decode_udp(const u_char *Buffer , int Size)
+
+u_int decode_udp(const u_char *header_start)
 {
     u_int header_size;
-    const struct udphdr *udph;
-    udph = (const struct udphdr *)header_start;
-    header_size =  4 * tcph->tcp_offset;
 
-    struct udphdr *udph = (struct udphdr*)(Buffer + iphdrlen  + sizeof(struct ethhdr));
-    int header_size =  sizeof(struct ethhdr) + iphdrlen + sizeof udph;
-    fprintf(logfile , "\n-UDP Header\n");
-    fprintf(logfile , "--Src Port : %d\n" , ntohs(udph->source));
-    fprintf(logfile , "--Dst Port : %d\n" , ntohs(udph->dest));
-    fprintf(logfile , "\n------------------------------");
-
-    printf("\t\t{{   Layer 4 :::: TCP Header   }}\n");
-    printf("\t\t{  Src Port: %hu\t", ntohs(tcph->tcp_src_port));
-    printf("Dst Port: %hu }\n", ntohs(tcph->tcp_dest_port));
+    struct udphdr *udph = (struct udphdr*)header_start;
+    header_size =  header_start + sizeof(struct udphdr);
+    printf("\t\t{{   Layer 4 :::: UDP Header   }}\n");
+    printf("\t\t{  Src Port: %hu\t", ntohs(udph->source));
+    printf("Dst Port: %hu }\n", ntohs(udph->dest));
     printf(" }\n");
-}*/
+    return header_size;
+}
 
 void dump(const unsigned char *buffer, const unsigned int length)
 {

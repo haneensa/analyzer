@@ -5,11 +5,9 @@
 #include "analyzer.h"
 
 void process_packet(u_char *, const struct pcap_pkthdr *, const u_char *);
-
 void map_protocol2filter(struct commands *);
 struct commands *parser(int, char **);
 
-/* main(): Main function. Opens network interface and calls pcap_loop() */
 int main(int argc, char *argv[] )
 { 
     char errbuf[PCAP_ERRBUF_SIZE];
@@ -53,16 +51,15 @@ int main(int argc, char *argv[] )
 void
 process_packet(u_char *user_args, const struct pcap_pkthdr *cap_header, const u_char *packet)
 {
-    int tcp_header_length, total_header_size, pkt_data_len;
+    int header_length, total_header_size, pkt_data_len;
     u_char *pkt_data;
 
     printf("==== Got a %d byte packet ====\n", cap_header->len);
 
     decode_ethernet(packet);
-    decode_ip(packet + ETHER_HDR_LEN);
-    tcp_header_length = decode_tcp(packet + ETHER_HDR_LEN + sizeof(struct ip_hdr));
+    header_length = decode_ip(packet + ETHER_HDR_LEN);
 
-    total_header_size = ETHER_HDR_LEN + sizeof(struct ip_hdr) + tcp_header_length;
+    total_header_size = ETHER_HDR_LEN + sizeof(struct ip_hdr) + header_length;
     pkt_data = (u_char *)packet + total_header_size; 
     pkt_data_len = cap_header->len - total_header_size;
 
@@ -94,7 +91,7 @@ struct commands *parser(int argc, char *argv[])
                 coms->protocol = argv[++i];
                 printf("protocol = %s\n", coms->protocol);
                 map_protocol2filter(coms);
-                printf("proto -> filter = %s\n", coms->filter);
+                printf("proto->filter = %s\n", coms->filter);
            }
         }
         if (strncmp(argv[i], "--filter", 8) == 0) {
