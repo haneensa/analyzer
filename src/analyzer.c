@@ -1,13 +1,7 @@
-#include <pcap.h>
 #include <stdio.h>
-#include <stdlib.h> // for exit()
 #include <string.h> //for memset
-
-#include <sys/socket.h>
 #include <arpa/inet.h> // for inet_ntoa()
 #include <netinet/udp.h>   //Provides declarations for udp header
-#include <netinet/tcp.h>   //Provides declarations for tcp header
-//#include <netinet/ip.h>    //Provides declarations for ip header
 
 #include "analyzer.h"
 
@@ -27,6 +21,7 @@ void decode_ethernet(const u_char *header_start)
         printf(":%02x", eth->ether_dest_addr[i]);
     printf("\tTYpe: %hu ]\n", eth->ether_type);
 }
+
 u_int decode_ip(const u_char * header_start)
 {
     const struct ip_hdr *iph;
@@ -83,7 +78,7 @@ u_int decode_udp(const u_char *header_start)
     u_int header_size;
 
     struct udphdr *udph = (struct udphdr*)header_start;
-    header_size =  header_start + sizeof(struct udphdr);
+    header_size =  *(int *)(header_start + 4);
     printf("\t\t{{   Layer 4 :::: UDP Header   }}\n");
     printf("\t\t{  Src Port: %hu\t", ntohs(udph->source));
     printf("Dst Port: %hu }\n", ntohs(udph->dest));

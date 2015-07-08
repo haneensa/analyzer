@@ -1,6 +1,5 @@
 #define MAXBYTES2CAPTURE 2048 
 
-
 struct commands {
     char *protocol;
     char *filter;
@@ -10,7 +9,6 @@ struct commands {
 };
 
 /*  Ethernet frame header, org defined in: /usr/include/if_ether.h */
-
 #define ETHER_ADDR_LEN 6
 #define ETHER_HDR_LEN 14
 
@@ -59,5 +57,5 @@ struct tcp_hdr {
 void decode_ethernet(const u_char *header_start);
 u_int decode_ip(const u_char *);
 u_int decode_tcp(const u_char *);
-void dump(const unsigned char *, const unsigned int);
 u_int decode_udp(const u_char *);
+void dump(const unsigned char *, const unsigned int);
