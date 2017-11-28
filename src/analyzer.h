@@ -1,3 +1,9 @@
+/* 
+* 1- Erickson, J. Hacking: The Art of Exploitation, 2008. No Starch Pr.
+* 2- Garcia, L. M. (2008). Programming with libpcap-sniffing the network from our own application.
+     Hakin9-Computer Security Magazine, 2-2008.
+*/
+
 #define MAXBYTES2CAPTURE 2048 
 
 struct commands {
