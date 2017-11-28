@@ -27,3 +27,8 @@ For each captured packet, the analyzer output the following information:
 2. MAC source address, MAC destination address
 3. source IP, destination IP, time to live (TTL)
 4. source port, destination port
+
+# References 
+1. Erickson, J. Hacking: The Art of Exploitation, 2008. No Starch Pr.
+2. Garcia, L. M. (2008). Programming with libpcap-sniffing the network from our own application. Hakin9-Computer Security Magazine, 2-2008.
+
